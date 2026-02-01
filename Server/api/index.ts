@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import App from "../src/app.js";
 
 const appInstance = new App();
+// Start the async initialization immediately
+const initPromise = appInstance.initialize();
 
-// Since initialize is async, we handle it before exporting
-// Top-level await is supported in Node.js 18+ on Vercel
-await appInstance.initialize();
-
-const app = appInstance.app;
-
-// Export the express instance directly
-export default app;
+export default async function handler(req: any, res: any) {
+  // Ensure the app is fully initialized (middlewares, routes) before handling the request
+  await initPromise;
+  
+  // Pass the request to the Express application instance
+  return appInstance.app(req, res);
+}
