@@ -1,27 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import AppClass from "../src/app.js";
-import type { Request, Response } from "express";
+import App from "../src/app.js";
 
-let handler: any;
+// 1. Create the instance at the top level
+const appInstance = new App();
 
-export default async function handlerFn(req: Request, res: Response) {
-  console.log("AppClass check:", typeof AppClass, Object.keys(AppClass || {}));
-  try {
-    if (!handler) {
-      // 1. Resolve the Interop Issue
-      // If AppClass has a .default property, use that. Otherwise, use AppClass itself.
-      const ActualAppClass = (AppClass as any).default || AppClass;
+// 2. Initialize it immediately (top-level await is supported in Node 18+)
+// This runs once when the lambda boots up
+await appInstance.initialize();
 
-      // 2. Instantiate safely
-      const appInstance = new ActualAppClass();
-
-      await appInstance.initialize();
-      handler = appInstance.app;
-    }
-
-    return handler(req, res);
-  } catch (err) {
-    console.error("API init/handler error:", err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+// 3. Export the Express app directly
+// Vercel knows how to handle an Express Application object
+export default appInstance.app;
