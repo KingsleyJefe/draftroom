@@ -1,14 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import App from "../src/app.js";
 
-const appInstance = new App();
-// Start the async initialization immediately
-const initPromise = appInstance.initialize();
+// We create a helper to handle the "new" keyword logic safely
+const createHandler = async () => {
+  const instance = new App();
+  await instance.initialize();
+  return instance.app;
+};
 
-export default async function handler(req: any, res: any) {
-  // Ensure the app is fully initialized (middlewares, routes) before handling the request
-  await initPromise;
-  
-  // Pass the request to the Express application instance
-  return appInstance.app(req, res);
+// Start the creation process
+const handlerPromise = createHandler();
+
+export default async function (req: any, res: any) {
+  try {
+    const app = await handlerPromise;
+    // We are calling the Express instance (a function), not the Class
+    return app(req, res);
+  } catch (err) {
+    console.error("Vercel Bridge Error:", err);
+    res.status(500).send("Internal Server Error");
+  }
 }
