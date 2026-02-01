@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { HTTP_STATUS } from "../../global/constants/http-status-codes";
-import DraftsService from "./service";
+import { HTTP_STATUS } from "../../global/constants/http-status-codes.js";
+import DraftsService from "./service.js";
 
 export const getDrafts = async (
   req: Request<object, object, { pastedText?: string }>,
