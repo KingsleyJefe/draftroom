@@ -2,6 +2,9 @@
 import App from "../src/app.js";
 import type { Request, Response } from "express";
 
+console.log("App typeof:", typeof App);
+console.log("App value:", App);
+
 let handler: (req: Request, res: Response) => any;
 
 async function init() {
