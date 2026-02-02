@@ -21,8 +21,6 @@ export default function ReviewSources() {
 
   const [items, setItems] = useState<SourceReviewItem[]>(initial?.items ?? []);
 
-  console.log(items, "RESOURCES");
-
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>(() => {
     const map: Record<string, boolean> = {};
     (initial?.items ?? []).forEach((it) => (map[it.id] = false));
