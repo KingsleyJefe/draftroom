@@ -101,7 +101,7 @@ const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
   return (
     <div className="sticky top-0 z-10 bg-[#EFEFEF] sm:text-[24px] text-[16px]">
       <div className="p-4">
-        <div className="mx-auto w-full max-w-[980px] pb-2 flex items-center justify-between gap-3">
+        <div className="mx-auto w-full max-w-[980px] pb-2 pt-5 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={() => navigate(-1)}
@@ -165,7 +165,7 @@ const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
                 onClick={() => editor?.chain().focus().toggleItalic().run()}
                 active={editor?.isActive("italic")}
               >
-                I
+                <span className="italic cursive">I</span>
               </ToolBtn>
             </div>
 

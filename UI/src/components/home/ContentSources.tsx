@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { BsFileEarmarkPdfFill } from "react-icons/bs";
 import { useUploadSources } from "../../_services/draft.service";
 import useDeviceType from "../../lib/hooks/useDeviceType";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 
 const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
@@ -24,6 +25,42 @@ function formatBytes(bytes: number) {
 function makeFileId(file: File) {
   return `${file.name}_${file.size}_${file.lastModified}`;
 }
+
+/** Animations */
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const itemAnim: Variants = {
+  hidden: { opacity: 0, y: 10, scale: 0.98 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.88, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    scale: 0.98,
+    transition: { duration: 0.58, ease: "easeOut" },
+  },
+};
 
 const ContentSources = () => {
   const [uploads, setUploads] = useState<UploadedFile[]>([]);
@@ -126,13 +163,22 @@ const ContentSources = () => {
 
   return (
     <main className="sm:my-20 my-10 flex items-center justify-center">
-      <div className="w-[580px]">
-        <h1 className="sm:text-[24px] text-[18px] font-medium">
-          Add your sources
-        </h1>
-        <p className="sm:text-[18px] text-[14px]">
-          Upload files or paste text. We’ll combine everything into one document
-        </p>
+      <motion.div
+        className="w-[580px]"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Header */}
+        <motion.div variants={fadeUp}>
+          <h1 className="sm:text-[24px] text-[18px] font-medium">
+            Add your sources
+          </h1>
+          <p className="sm:text-[18px] text-[14px]">
+            Upload files or paste text. We’ll combine everything into one
+            document
+          </p>
+        </motion.div>
 
         {/* Hidden input */}
         <input
@@ -144,7 +190,9 @@ const ContentSources = () => {
           onChange={onInputChange}
         />
 
-        <div
+        {/* Upload box */}
+        <motion.div
+          variants={fadeUp}
           className={`box sm:my-10 my-5 border border-dashed border-[#9F9C9C] h-[265px] rounded-2xl flex flex-col items-center justify-center gap-6 ${
             !canAddMore ? "opacity-60" : ""
           }`}
@@ -153,6 +201,9 @@ const ContentSources = () => {
           role="button"
           tabIndex={0}
           aria-disabled={!canAddMore}
+          whileHover={canAddMore ? { scale: 1.01 } : undefined}
+          whileTap={canAddMore ? { scale: 0.99 } : undefined}
+          transition={{ duration: 0.18 }}
         >
           <BsFileEarmarkPdfFill size={38} color="#616161" />
           <div className="flex flex-col items-center justify-center">
@@ -174,10 +225,10 @@ const ContentSources = () => {
           >
             Browse file
           </button>
-        </div>
+        </motion.div>
 
-        {/* uploaded documents (pdf) */}
-        <div className="space-y-3 mb-8">
+        {/* Uploaded documents */}
+        <motion.div variants={fadeUp} className="space-y-3 mb-8">
           {uploads.length > 0 && (
             <div className="flex items-center justify-between">
               <p className="sm:text-[18px] text-[14px] font-medium">
@@ -192,70 +243,88 @@ const ContentSources = () => {
             </div>
           )}
 
-          {uploads.map(({ id, file }) => (
-            <div
-              key={id}
-              className="flex items-center justify-between  bg-white sm:py-3 py-2"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <BsFileEarmarkPdfFill
-                  size={isMobile ? 20 : 32}
-                  color="#616161"
-                />
-                <div className="min-w-0">
-                  <p className="sm:text-[18px] text-[13px] font-medium truncate sm:w-full w-[250px]">
-                    {file.name}
-                  </p>
-                  <p
-                    className="sm:text-[16px] text-[12px] text-[#616161]"
-                    style={{ fontFamily: '"Geist Mono", sans-serif' }}
-                  >
-                    {formatBytes(file.size)}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => removeFile(id)}
-                className="h-9 w-9 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
-                aria-label={`Remove ${file.name}`}
-                title="Remove"
+          {/* Animate list add/remove */}
+          <AnimatePresence initial={false}>
+            {uploads.map(({ id, file }) => (
+              <motion.div
+                key={id}
+                variants={itemAnim}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+                layout
+                className="flex items-center justify-between bg-white sm:py-3 py-2"
               >
-                <IoClose
-                  size={isMobile ? 18 : 28}
-                  color="#616161"
-                  className="cursor-pointer"
-                />
-              </button>
-            </div>
-          ))}
-        </div>
+                <div className="flex items-center gap-3 min-w-0">
+                  <BsFileEarmarkPdfFill
+                    size={isMobile ? 20 : 32}
+                    color="#616161"
+                  />
+                  <div className="min-w-0">
+                    <p className="sm:text-[18px] text-[13px] font-medium truncate sm:w-full w-[250px]">
+                      {file.name}
+                    </p>
+                    <p
+                      className="sm:text-[16px] text-[12px] text-[#616161]"
+                      style={{ fontFamily: '"Geist Mono", sans-serif' }}
+                    >
+                      {formatBytes(file.size)}
+                    </p>
+                  </div>
+                </div>
 
-        <h1 className="sm:text-[24px] text-[18px] font-medium">Paste text (Optional)</h1>
-        <div className="box mb-10 mt-4 bg-[#EFEFEF] h-[265px] rounded-2xl p-5 relative">
-          <textarea
-            value={pastedText}
-            onChange={(e) => setPastedText(e.target.value)}
-            className="w-full sm:text-[20px] text-[16px] h-45 resize-none outline-0"
-            placeholder="Notes, emails, copied sections, anything relevant..."
-          ></textarea>
+                <button
+                  type="button"
+                  onClick={() => removeFile(id)}
+                  className="h-9 w-9 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
+                  aria-label={`Remove ${file.name}`}
+                  title="Remove"
+                >
+                  <IoClose
+                    size={isMobile ? 18 : 28}
+                    color="#616161"
+                    className="cursor-pointer"
+                  />
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
-          <p className="sm:text-[15px] text-[12px] right-6 absolute bottom-3">
-            WORD COUNT: {pastedText.length}
-          </p>
-        </div>
+        {/* Paste text */}
+        <motion.div variants={fadeUp}>
+          <h1 className="sm:text-[20px] text-[18px] font-medium">
+            Paste text (Optional)
+          </h1>
 
-        <div className="flex items-center justify-center">
+          <div className="box mb-10 mt-4 bg-[#EFEFEF] h-[265px] rounded-2xl p-5 relative">
+            <textarea
+              value={pastedText}
+              onChange={(e) => setPastedText(e.target.value)}
+              className="w-full sm:text-[20px] text-[16px] h-45 resize-none outline-0"
+              placeholder="Notes, emails, copied sections, anything relevant..."
+            />
+
+            <p className="sm:text-[15px] text-[12px] right-6 absolute bottom-3">
+              WORD COUNT: {pastedText.length}
+            </p>
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          variants={fadeUp}
+          className="flex items-center justify-center"
+        >
           <button
             className="sm:text-[18px] text-[14px] px-6 py-4 disabled:bg-[#A2A2A2] disabled:cursor-not-allowed bg-black cursor-pointer text-white rounded-2xl"
             disabled={uploads.length === 0 || uploadSources.isPending}
             onClick={onReviewSources}
           >
-            {uploadSources.isPending ? "Reviewing..." : "Review sources"}
+            {uploadSources.isPending ? "Prepearing files..." : "Review sources"}
           </button>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </main>
   );
 };

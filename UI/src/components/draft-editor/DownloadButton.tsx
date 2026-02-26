@@ -5,12 +5,11 @@ import { Editor } from "@tiptap/react";
 export function DownloadMenu({
   editor,
   title,
-  downloadTextAsPdf,
   downloadTextAsDocx,
 }: {
   editor: Editor;
   title: string;
-  downloadTextAsPdf: (title: string, text: string) => void;
+  downloadTextAsPdf?: (title: string, text: string) => void;
   downloadTextAsDocx: (title: string, text: string) => Promise<void> | void;
 }) {
   const [open, setOpen] = useState(false);
@@ -39,11 +38,11 @@ export function DownloadMenu({
     };
   }, [open]);
 
-  const downloadPdf = () => {
-    const plain = editor?.getText?.() ?? "";
-    downloadTextAsPdf(title, plain);
-    setOpen(false);
-  };
+  // const downloadPdf = () => {
+  //   const plain = editor?.getText?.() ?? "";
+  //   downloadTextAsPdf(title, plain);
+  //   setOpen(false);
+  // };
 
   const downloadDocx = async () => {
     const plain = editor?.getText?.() ?? "";
@@ -73,13 +72,13 @@ export function DownloadMenu({
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute right-0 mt-2 w-full sm:w-44 rounded-xl border border-[#E6E6E6] bg-white shadow-lg overflow-hidden z-50"
           >
-            <button
+            {/* <button
               role="menuitem"
               className="w-full px-4 py-2 text-left text-[14px] sm:text-[16px] hover:bg-[#F6F6F6]"
               onClick={downloadPdf}
             >
               PDF (.pdf)
-            </button>
+            </button> */}
 
             <button
               role="menuitem"

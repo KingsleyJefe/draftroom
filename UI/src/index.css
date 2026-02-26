@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
 @import url("https://fonts.cdnfonts.com/css/geist-mono");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alyamama:wght@300..900&display=swap");
+
 @import "tailwindcss";
 
 /* font-family: "Geist Mono", sans-serif; */
@@ -13,4 +15,8 @@ body {
 
 .ProseMirror:focus {
   outline: none;
+}
+
+.cursive {
+  font-family: "Alyamama", serif;
 }

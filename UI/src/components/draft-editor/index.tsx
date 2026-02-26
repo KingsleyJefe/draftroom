@@ -7,6 +7,29 @@ import Container from "../shared/Container";
 import StarterKit from "@tiptap/starter-kit";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SourceReviewItem } from "../../_services/draft.service";
+import type { Variants } from "framer-motion";
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.85,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 type LocationState = {
   items?: SourceReviewItem[];
@@ -83,16 +106,19 @@ export default function DraftEditor() {
     <Container>
       <motion.main
         className="min-h-screen bg-[#EFEFEF] mb-20 sm:text-[22px] text-[13.5px]"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 8 }}
-        transition={{ duration: 0.22, ease: "easeOut" }}
+        variants={container}
+        initial="hidden"
+        animate="show"
       >
         {/* Top bar */}
-        <TopBar title={title} editor={editor} setTitle={setTitle} />
+        <motion.div variants={fadeUp}>
+          <TopBar title={title} editor={editor} setTitle={setTitle} />
+        </motion.div>
 
         {/* Editor */}
-        <EDITOR items={items} editor={editor} />
+        <motion.div variants={fadeUp}>
+          <EDITOR items={items} editor={editor} />
+        </motion.div>
       </motion.main>
     </Container>
   );

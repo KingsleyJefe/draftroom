@@ -23,7 +23,7 @@ const EDITOR = ({
       )}
 
       <div>
-        <div className="px-6 py-2">
+        <div className="px-6 py-2 text-[20px] text-black/70">
           <EditorContent
             editor={editor}
             className="prose max-w-none min-h-[65vh]"
