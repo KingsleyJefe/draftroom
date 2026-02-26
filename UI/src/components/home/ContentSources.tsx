@@ -321,7 +321,7 @@ const ContentSources = () => {
             disabled={uploads.length === 0 || uploadSources.isPending}
             onClick={onReviewSources}
           >
-            {uploadSources.isPending ? "Prepearing files..." : "Review sources"}
+            {uploadSources.isPending ? "Preparing files..." : "Review sources"}
           </button>
         </motion.div>
       </motion.div>
