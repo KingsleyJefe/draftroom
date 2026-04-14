@@ -18,7 +18,7 @@ export default function SortableResourceBox({
   } = useSortable({ id: it.id });
 
   const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
+    transform: CSS.Translate.toString(transform),
     transition,
   };
 
