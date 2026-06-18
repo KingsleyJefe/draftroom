@@ -2,7 +2,7 @@ import { CorsOptions } from "cors";
 import logger from "../../config.js";
 const whitelists: string[] = [
   "http://192.168.42.215:5173",
-  "https://draftroom-v2.vercel.app",
+  "https://draftroom-rho.vercel.app",
 ];
 
 const corsOptions: CorsOptions = {
