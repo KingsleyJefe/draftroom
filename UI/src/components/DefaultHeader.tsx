@@ -4,12 +4,12 @@ const DefaultHeader = () => {
   const { pathname } = useLocation();
   const isEditorView = pathname === "/draft-editor";
   return (
-    <header className={`pt-4 sm:px-8 px-4 ${isEditorView ? "pb-20" : "pb-4"}`}>
+    <header className={`pt-3 sm:px-6 px-4 ${isEditorView ? "pb-10" : "pb-3"}`}>
       <figure>
         <img
           src="/draftroom-logo.png"
           alt=""
-          className="w-[149px] object-cover"
+          className="w-[110px] object-cover"
         />
       </figure>
     </header>

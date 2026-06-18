@@ -99,24 +99,24 @@ function transformSelection(
 const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
   const navigate = useNavigate();
   return (
-    <div className="sticky top-0 z-10 bg-[#EFEFEF] sm:text-[24px] text-[16px]">
-      <div className="p-4">
-        <div className="mx-auto w-full max-w-[980px] pb-2 pt-5 flex items-center justify-between gap-3">
+    <div className="sticky top-0 z-10 bg-[#EFEFEF] sm:text-[16px] text-[14px]">
+      <div className="p-3">
+        <div className="mx-auto w-full max-w-[860px] pb-2 pt-3 flex items-center justify-between gap-2.5">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="sm:h-14 hidden sm:flex sm:w-14 w-8 h-8 bg-white cursor-pointer rounded-full  hover:bg-[#F6F6F6] items-center justify-center border border-[#6161613e]"
+            className="sm:h-10 hidden sm:flex sm:w-10 w-7 h-7 bg-white cursor-pointer rounded-full  hover:bg-[#F6F6F6] items-center justify-center border border-[#6161613e]"
             aria-label="Back"
             title="Back"
           >
             ←
           </button>
 
-          <div className="flex sm:flex-row flex-col w-full gap-3 sm:gap-0 items-center justify-center bg-white py-2 px-4 sm:rounded-4xl rounded-2xl border border-[#6161613e]">
+          <div className="flex sm:flex-row flex-col w-full gap-2 sm:gap-0 items-center justify-center bg-white py-1.5 px-3 sm:rounded-2xl rounded-xl border border-[#6161613e]">
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="sm:h-10 py-2 sm:py-0 flex-1 rounded-xl border border-transparent px-3 sm:mr-3 sm:text-[24px] text-[15px] font-medium outline-none w-full focus:border-[#E6E6E6] focus:bg-[#FAFAFA]"
+              className="sm:h-8 py-1.5 sm:py-0 flex-1 rounded-md border border-transparent px-2.5 sm:mr-2.5 sm:text-[16px] text-[14px] font-medium outline-none w-full focus:border-[#E6E6E6] focus:bg-[#FAFAFA]"
             />
             {/* simple toolbar */}
             <div className="flex items-center gap-1">
@@ -135,7 +135,7 @@ const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
                 ↷
               </ToolBtn>
 
-              <div className="mx-2 h-6 w-px bg-[#E6E6E6]" />
+              <div className="mx-1.5 h-5 w-px bg-[#E6E6E6]" />
 
               <ToolBtn
                 onClick={() =>
@@ -153,7 +153,7 @@ const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
                 Aa↓
               </ToolBtn>
 
-              <div className="mx-2 h-6 w-px bg-[#E6E6E6]" />
+              <div className="mx-1.5 h-5 w-px bg-[#E6E6E6]" />
 
               <ToolBtn
                 onClick={() => editor?.chain().focus().toggleBold().run()}

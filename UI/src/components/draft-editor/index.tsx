@@ -105,7 +105,7 @@ export default function DraftEditor() {
   return (
     <Container>
       <motion.main
-        className="min-h-screen bg-[#EFEFEF] mb-20 sm:text-[22px] text-[13.5px]"
+        className="min-h-screen bg-[#EFEFEF] mb-12 sm:text-[15px] text-[13px]"
         variants={container}
         initial="hidden"
         animate="show"

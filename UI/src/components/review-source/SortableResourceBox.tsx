@@ -33,17 +33,17 @@ export default function SortableResourceBox({
       ].join(" ")}
     >
       {/* Drag handle */}
-      <div className="flex items-start gap-3">
+      <div className="flex items-start gap-2.5">
         <button
           type="button"
-          className="mt-5 cursor-grab active:cursor-grabbing text-zinc-400 hover:text-zinc-200"
+          className="mt-3.5 cursor-grab active:cursor-grabbing text-zinc-400 hover:text-zinc-200"
           {...attributes}
           {...listeners}
           aria-label="Drag to reorder"
           title="Drag to reorder"
         >
           {/* simple handle icon */}
-          <span className="text-xl leading-none">⋮⋮</span>
+          <span className="text-base leading-none">⋮⋮</span>
         </button>
 
         <div className="flex-1">{children}</div>

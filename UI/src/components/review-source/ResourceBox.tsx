@@ -43,35 +43,35 @@ const ResourceBox = ({
   return (
     <div
       key={it.id}
-      className="flex gap-3 sm:my-4 sm:p-4 rounded-2xl bg-[#F9F8F8] p-2"
+      className="flex gap-2.5 sm:my-2.5 sm:p-3 rounded-lg bg-[#F9F8F8] p-2"
     >
       <div className="flex-1">
         {/* top row */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
             <div className="">
               {isPdf ? (
                 <BsFileEarmarkPdfFill
-                  size={isMobile ? 15 : 27}
+                  size={isMobile ? 14 : 20}
                   className="text-[#4A4A4A]"
                 />
               ) : (
                 <PiTextAUnderlineFill
-                  size={isMobile ? 15 : 27}
+                  size={isMobile ? 14 : 20}
                   className="text-[#4A4A4A]"
                 />
               )}
             </div>
 
             <div className="min-w-0">
-              <div className="flex items-center gap-2 min-w-0 w-[160px] sm:w-[400px]">
-                <p className="sm:text-[18px] text-[14px] font-medium truncate">
+              <div className="flex items-center gap-2 min-w-0 w-[160px] sm:w-[360px]">
+                <p className="sm:text-[13px] text-[12px] font-medium truncate">
                   {isPdf ? it.name : "Pasted Text"}
                 </p>
 
                 <span
                   className={classNames(
-                    "sm:text-[18px] text-[15px] leading-none",
+                    "sm:text-[13px] text-[12px] leading-none",
                     ok ? "text-[#2BBE52]" : "text-[#F0B429]",
                   )}
                   title={ok ? "OK" : "Warning"}
@@ -81,14 +81,14 @@ const ResourceBox = ({
               </div>
 
               {isOCR && (
-                <div className="py-1 mb-1 inline-flex items-center text-[#D11A2A] gap-2 rounded-ful px-1 text-[12px]">
+                <div className="py-0.5 mb-1 inline-flex items-center text-[#D11A2A] gap-2 rounded-ful px-1 text-[10px]">
                   <span className="font-semibold">
                     Text was extracted from an image and may need review.
                   </span>
                 </div>
               )}
               <p
-                className="sm:text-[12px] text-[10px] text-[#616161] whitespace-nowrap"
+                className="sm:text-[10px] text-[9px] text-[#616161] whitespace-nowrap"
                 style={{ fontFamily: '"Geist Mono", sans-serif' }}
               >
                 {isPdf ? `${(it as any).sizeLabel} ` : ""}
@@ -98,28 +98,28 @@ const ResourceBox = ({
           </div>
 
           {/* actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {isPdf && !ok && (
               <button
                 type="button"
-                className="h-8 w-8 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
+                className="h-7 w-7 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
                 onClick={() => retryItem(it.id)}
                 aria-label="Retry"
                 title="Retry"
               >
-                <FiRefreshCw className="text-[#616161]" />
+                <FiRefreshCw size={isMobile ? 12 : 14} className="text-[#616161]" />
               </button>
             )}
 
             <button
               type="button"
-              className="h-8 w-8 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
+              className="h-7 w-7 grid place-items-center rounded-full hover:bg-[#F2F2F2]"
               onClick={() => removeItem(it.id)}
               aria-label="Remove"
               title="Remove"
             >
               <IoTrashOutline
-                size={isMobile ? 14 : 20}
+                size={isMobile ? 12 : 16}
                 className="text-[#D11A2A] cursor-pointer"
               />
             </button>
@@ -127,14 +127,14 @@ const ResourceBox = ({
             {/* Animated chevron */}
             <button
               type="button"
-              className="h-8 w-8 grid cursor-pointer place-items-center rounded-full hover:bg-[#F2F2F2]"
+              className="h-7 w-7 grid cursor-pointer place-items-center rounded-full hover:bg-[#F2F2F2]"
               onClick={() => toggleCollapsed(it.id)}
               aria-label={isCollapsed ? "Expand" : "Collapse"}
               title={isCollapsed ? "Expand" : "Collapse"}
             >
               <motion.svg
-                width="18"
-                height="18"
+                width="14"
+                height="14"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -169,22 +169,22 @@ const ResourceBox = ({
             pointerEvents: isCollapsed ? "none" : "auto",
           }}
         >
-          <div className="mt-3 rounded-2xl sm:p-4 p-2">
+          <div className="mt-2 rounded-lg sm:p-3 p-2">
             {ok ? (
               <>
                 <p
-                  className="sm:text-[15px] text-[12px] text-[#6B6B6B]"
+                  className="sm:text-[11px] text-[10px] text-[#6B6B6B]"
                   style={{ fontFamily: '"Geist Mono", sans-serif' }}
                 >
                   TEXT SNIPPET
                 </p>
 
-                <div className="w-full mt-3 sm:w-[500px] bg-[#EFEFEF] rounded-2xl sm:p-4 p-2 sm:text-[13px] text-[11px] text-[#2C2C2C] leading-6">
+                <div className="w-full mt-2 sm:w-[460px] bg-[#EFEFEF] rounded-lg sm:p-3 p-2 sm:text-[12px] text-[11px] text-[#2C2C2C] leading-5">
                   {"snippet" in it ? it.snippet : ""}
                 </div>
               </>
             ) : (
-              <div className="text-[12px] text-[#5A5A5A] leading-6">
+              <div className="text-[11px] text-[#5A5A5A] leading-5">
                 {(it as any).errorMessage ??
                   "WE COULDN’T EXTRACT READABLE TEXT FROM FILE."}{" "}
                 <span className="underline cursor-pointer">ADD A NEW FILE</span>{" "}

@@ -55,7 +55,7 @@ export function DownloadMenu({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="h-10 rounded-full bg-black px-4 text-white sm:text-[18px] text-[14px] font-medium hover:bg-black/90 sm:ml-2 cursor-pointer w-full sm:w-max"
+        className="h-9 rounded-full bg-black px-3.5 text-white sm:text-[13px] text-[12px] font-medium hover:bg-black/90 sm:ml-2 cursor-pointer w-full sm:w-max"
         aria-haspopup="menu"
         aria-expanded={open}
       >
@@ -70,7 +70,7 @@ export function DownloadMenu({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-full sm:w-44 rounded-xl border border-[#E6E6E6] bg-white shadow-lg overflow-hidden z-50"
+            className="absolute right-0 mt-2 w-full sm:w-40 rounded-lg border border-[#E6E6E6] bg-white shadow-lg overflow-hidden z-50"
           >
             {/* <button
               role="menuitem"
@@ -82,7 +82,7 @@ export function DownloadMenu({
 
             <button
               role="menuitem"
-              className="w-full px-4 py-2 text-left text-[14px] sm:text-[16px] hover:bg-[#F6F6F6]"
+              className="w-full px-3 py-1.5 text-left text-[12px] sm:text-[13px] hover:bg-[#F6F6F6]"
               onClick={downloadDocx}
             >
               Word (.docx)

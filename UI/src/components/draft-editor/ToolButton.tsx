@@ -15,7 +15,7 @@ export default function ToolBtn({
       onClick={onClick}
       disabled={disabled}
       className={[
-        "sm:h-12 sm:w-12 h-8 w-8 rounded-full border border-[#E6E6E6] sm:text-[18px] text-[8px] font-semibold cursor-pointer",
+        "sm:h-9 sm:w-9 h-7 w-7 rounded-full border border-[#E6E6E6] sm:text-[14px] text-[9px] font-semibold cursor-pointer",
         "hover:bg-[#F6F6F6] disabled:opacity-40 disabled:hover:bg-transparent",
         active ? "bg-[#EFEFEF]" : "bg-white",
       ].join(" ")}
