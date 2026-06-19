@@ -7,6 +7,8 @@ import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import { DownloadMenu } from "./DownloadButton";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface IToolbarProps {
   title: string;
@@ -102,21 +104,23 @@ const TopBar = ({ title, setTitle, editor }: IToolbarProps) => {
     <div className="sticky top-0 z-10 bg-[#EFEFEF] sm:text-[16px] text-[14px]">
       <div className="p-3">
         <div className="mx-auto w-full max-w-[860px] pb-2 pt-3 flex items-center justify-between gap-2.5">
-          <button
+          <Button
             type="button"
+            variant="outline"
+            size="icon"
             onClick={() => navigate(-1)}
-            className="sm:h-10 hidden sm:flex sm:w-10 w-7 h-7 bg-white cursor-pointer rounded-full  hover:bg-[#F6F6F6] items-center justify-center border border-[#6161613e]"
+            className="hidden sm:flex rounded-full bg-white"
             aria-label="Back"
             title="Back"
           >
             ←
-          </button>
+          </Button>
 
           <div className="flex sm:flex-row flex-col w-full gap-2 sm:gap-0 items-center justify-center bg-white py-1.5 px-3 sm:rounded-2xl rounded-xl border border-[#6161613e]">
-            <input
+            <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="sm:h-8 py-1.5 sm:py-0 flex-1 rounded-md border border-transparent px-2.5 sm:mr-2.5 sm:text-[16px] text-[14px] font-medium outline-none w-full focus:border-[#E6E6E6] focus:bg-[#FAFAFA]"
+              className="flex-1 sm:mr-2.5 border-transparent bg-transparent dark:bg-transparent font-medium sm:text-[16px] text-[14px] focus-visible:bg-[#FAFAFA] focus-visible:border-[#E6E6E6] focus-visible:ring-0"
             />
             {/* simple toolbar */}
             <div className="flex items-center gap-1">

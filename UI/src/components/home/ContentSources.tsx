@@ -5,6 +5,8 @@ import { BsFileEarmarkPdfFill } from "react-icons/bs";
 import { useUploadSources } from "../../_services/draft.service";
 import useDeviceType from "../../lib/hooks/useDeviceType";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
@@ -218,13 +220,13 @@ const ContentSources = () => {
             </p>
           </div>
 
-          <button
-            className="sm:text-[13px] text-[12px] px-4 py-2 rounded-md bg-[#292D32] text-white cursor-pointer"
+          <Button
+            type="button"
             onClick={onBrowseClick}
             disabled={!canAddMore}
           >
             Browse file
-          </button>
+          </Button>
         </motion.div>
 
         {/* Uploaded documents */}
@@ -298,10 +300,10 @@ const ContentSources = () => {
           </h1>
 
           <div className="box mb-6 mt-3 bg-[#EFEFEF] h-[200px] rounded-lg p-4 relative">
-            <textarea
+            <Textarea
               value={pastedText}
               onChange={(e) => setPastedText(e.target.value)}
-              className="w-full sm:text-[14px] text-[13px] h-32 resize-none outline-0"
+              className="w-full sm:text-[14px] text-[13px] h-32 min-h-0 resize-none border-0 bg-transparent p-0 focus-visible:ring-0 focus-visible:border-transparent dark:bg-transparent"
               placeholder="Notes, emails, copied sections, anything relevant..."
             />
 
@@ -316,13 +318,14 @@ const ContentSources = () => {
           variants={fadeUp}
           className="flex items-center justify-center"
         >
-          <button
-            className="sm:text-[13px] text-[12px] px-5 py-2.5 disabled:bg-[#A2A2A2] disabled:cursor-not-allowed bg-black cursor-pointer text-white rounded-lg"
+          <Button
+            type="button"
+            size="lg"
             disabled={uploads.length === 0 || uploadSources.isPending}
             onClick={onReviewSources}
           >
             {uploadSources.isPending ? "Preparing files..." : "Review sources"}
-          </button>
+          </Button>
         </motion.div>
       </motion.div>
     </main>

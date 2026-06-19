@@ -8,6 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SourceReviewItem } from "../../_services/draft.service";
 import type { Variants } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 const container: Variants = {
   hidden: {},
@@ -91,12 +92,7 @@ export default function DraftEditor() {
           <p className="text-sm text-[#616161] mb-6">
             No sources found. Go back and upload sources again.
           </p>
-          <button
-            onClick={() => navigate("/review-sources")}
-            className="px-4 py-2 rounded-xl bg-black text-white"
-          >
-            Go back
-          </button>
+          <Button onClick={() => navigate("/review-sources")}>Go back</Button>
         </div>
       </main>
     );

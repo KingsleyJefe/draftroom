@@ -6,6 +6,7 @@ import { ResourceList } from "./ResourceList";
 import type { Variants } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SourceReviewItem } from "../../_services/draft.service";
+import { Button } from "@/components/ui/button";
 
 type LocationState = {
   data?: {
@@ -77,13 +78,9 @@ export default function ReviewSources() {
             back and upload your sources again.
           </motion.p>
 
-          <motion.button
-            variants={fadeUp}
-            onClick={() => navigate("/")}
-            className="px-4 py-2 rounded-xl bg-black text-white"
-          >
-            Go back
-          </motion.button>
+          <motion.div variants={fadeUp}>
+            <Button onClick={() => navigate("/")}>Go back</Button>
+          </motion.div>
         </motion.div>
       </main>
     );
@@ -123,13 +120,15 @@ export default function ReviewSources() {
             <h1 className="sm:text-[15px] font-medium text-[14px]">
               Source list
             </h1>
-            <button
+            <Button
               type="button"
-              className="sm:text-[12px] text-[11px] px-2.5 py-1 rounded-full border border-[#CFCFCF] bg-white hover:bg-[#F6F6F6]"
+              variant="outline"
+              size="xs"
+              className="rounded-full"
               onClick={() => navigate(-1)}
             >
               Add another file +
-            </button>
+            </Button>
           </motion.div>
 
           {/* files */}
@@ -160,8 +159,9 @@ export default function ReviewSources() {
             variants={fadeUp}
             className="flex items-center justify-center sm:my-10 my-6"
           >
-            <button
-              className="sm:text-[13px] text-[12px] px-5 py-2.5 disabled:bg-[#A2A2A2] disabled:cursor-not-allowed bg-black cursor-pointer text-white rounded-lg"
+            <Button
+              type="button"
+              size="lg"
               onClick={() =>
                 navigate("/draft-editor", {
                   state: {
@@ -170,8 +170,8 @@ export default function ReviewSources() {
                 })
               }
             >
-              {"Generate draft"}
-            </button>
+              Generate draft
+            </Button>
           </motion.div>
 
           <motion.p
