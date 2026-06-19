@@ -29,6 +29,71 @@ body {
   font-family: "Alyamama", serif;
 }
 
+/* Draft editor body — matches Figma typography */
+.editor-body .ProseMirror {
+  color: #696868;
+  font-family: "Geist", sans-serif;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.7;
+  letter-spacing: -0.4px;
+}
+
+.editor-body .ProseMirror p {
+  margin: 0 0 0.6em 0;
+}
+
+.editor-body .ProseMirror strong {
+  color: #292d32;
+  font-weight: 600;
+}
+
+.editor-body .ProseMirror em {
+  color: #292d32;
+}
+
+/* Source title separator */
+.editor-body .ProseMirror h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2.2em 0 1em 0;
+  font-family: "Geist Mono", monospace;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: #919191;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.editor-body .ProseMirror h3::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23919191' stroke-width='2.5' stroke-linecap='round'><circle cx='5' cy='12' r='0.5'/><circle cx='12' cy='12' r='0.5'/><circle cx='19' cy='12' r='0.5'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.editor-body .ProseMirror h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #d4d4d4;
+}
+
+.editor-body.hide-titles .ProseMirror h3 {
+  display: none;
+}
+
+/* Hide first title's top spacing */
+.editor-body .ProseMirror > h3:first-child {
+  margin-top: 0.2em;
+}
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: 'Geist Variable', sans-serif;

@@ -50,6 +50,7 @@ export default function DraftEditor() {
   const location = useLocation();
   const state = location.state as LocationState | null;
   const [title, setTitle] = useState("Untitled draft");
+  const [hideAllTitles, setHideAllTitles] = useState(false);
   const items = useMemo(() => state?.items ?? [], [state?.items]);
 
   const initialHtml = useMemo(() => {
@@ -59,22 +60,17 @@ export default function DraftEditor() {
         const txt = (it.fullText ?? "").trim();
 
         if (!txt) {
-          return `<p><strong>${escapeHtml(name)}</strong></p><p></p>`;
+          return `<h3>${escapeHtml(name)}</h3><p></p>`;
         }
 
-        // Convert the text into paragraphs (keeps user-readable spacing)
         const body = txt
-          .split(/\n{2,}/g) // split by blank lines
+          .split(/\n{2,}/g)
           .map((p) => p.trim())
           .filter(Boolean)
           .map((p) => `<p>${escapeHtml(p).replace(/\n/g, "<br/>")}</p>`)
           .join("");
 
-        return `
-        <p><strong>${escapeHtml(name)}</strong></p>
-        ${body}
-        <p></p>
-      `;
+        return `<h3>${escapeHtml(name)}</h3>${body}<p></p>`;
       })
       .join("");
   }, [items]);
@@ -101,19 +97,22 @@ export default function DraftEditor() {
   return (
     <Container>
       <motion.main
-        className="min-h-screen bg-[#EFEFEF] mb-12 sm:text-[15px] text-[13px]"
+        className="min-h-screen bg-[#EFEFEF] sm:rounded-[12px] mb-12 sm:text-[15px] text-[13px] overflow-hidden"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        {/* Top bar */}
         <motion.div variants={fadeUp}>
           <TopBar title={title} editor={editor} setTitle={setTitle} />
         </motion.div>
 
-        {/* Editor */}
         <motion.div variants={fadeUp}>
-          <EDITOR items={items} editor={editor} />
+          <EDITOR
+            items={items}
+            editor={editor}
+            hideAllTitles={hideAllTitles}
+            onHideAllTitles={() => setHideAllTitles(true)}
+          />
         </motion.div>
       </motion.main>
     </Container>

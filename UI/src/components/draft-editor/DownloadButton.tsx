@@ -1,4 +1,5 @@
 import { Editor } from "@tiptap/react";
+import { IconDownload } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,9 +29,10 @@ export function DownloadMenu({
         <Button
           type="button"
           size="lg"
-          className="w-full sm:w-max sm:ml-2 rounded-full"
+          className="rounded-2xl bg-[#292d32] hover:bg-[#1f2226] sm:h-9 h-7 sm:px-4 px-3 sm:text-[15px] text-[12px] font-medium"
         >
           Download
+          <IconDownload className="sm:size-[18px] size-[14px]" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="sm:min-w-40">
