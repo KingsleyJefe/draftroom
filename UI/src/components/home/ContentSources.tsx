@@ -4,9 +4,10 @@ import { useMemo, useRef, useState } from "react";
 import { BsFileEarmarkPdfFill } from "react-icons/bs";
 import { useUploadSources } from "../../_services/draft.service";
 import useDeviceType from "../../lib/hooks/useDeviceType";
-import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { container, fadeUp, fileItem } from "@/lib/motion";
 
 const MAX_FILES = 5;
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
@@ -28,54 +29,23 @@ function makeFileId(file: File) {
   return `${file.name}_${file.size}_${file.lastModified}`;
 }
 
-/** Animations */
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.05,
-    },
-  },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const itemAnim: Variants = {
-  hidden: { opacity: 0, y: 10, scale: 0.98 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.88, ease: [0.22, 1, 0.36, 1] },
-  },
-  exit: {
-    opacity: 0,
-    y: -8,
-    scale: 0.98,
-    transition: { duration: 0.58, ease: "easeOut" },
-  },
-};
-
 const ContentSources = () => {
   const [uploads, setUploads] = useState<UploadedFile[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [pastedText, setPastedText] = useState("");
+  const [isDragActive, setIsDragActive] = useState(false);
+  const dragDepth = useRef(0);
   const canAddMore = uploads.length < MAX_FILES;
   const { isMobile } = useDeviceType();
 
   const uploadSources = useUploadSources();
 
+  const hasPastedText = pastedText.trim().length > 0;
+  const canSubmit = uploads.length > 0 || hasPastedText;
+
   const onReviewSources = async () => {
-    if (!uploads.length) {
-      toast.error("upload some files");
+    if (!canSubmit) {
+      toast.error("Upload a file or paste some text");
       return;
     }
     try {
@@ -154,6 +124,8 @@ const ContentSources = () => {
   const onDrop: React.DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    dragDepth.current = 0;
+    setIsDragActive(false);
     if (!canAddMore) return;
     if (e.dataTransfer.files?.length) addFiles(e.dataTransfer.files);
   };
@@ -161,6 +133,21 @@ const ContentSources = () => {
   const onDragOver: React.DragEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const onDragEnter: React.DragEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!canAddMore) return;
+    dragDepth.current += 1;
+    if (dragDepth.current === 1) setIsDragActive(true);
+  };
+
+  const onDragLeave: React.DragEventHandler<HTMLDivElement> = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth.current = Math.max(0, dragDepth.current - 1);
+    if (dragDepth.current === 0) setIsDragActive(false);
   };
 
   return (
@@ -173,7 +160,7 @@ const ContentSources = () => {
       >
         {/* Header */}
         <motion.div variants={fadeUp}>
-          <h1 className="sm:text-[18px] text-[16px] font-medium">
+          <h1 className="sm:text-[18px] text-[16px] font-medium tracking-[-1px]">
             Add your sources
           </h1>
           <p className="sm:text-[13px] text-[12px]">
@@ -195,22 +182,36 @@ const ContentSources = () => {
         {/* Upload box */}
         <motion.div
           variants={fadeUp}
-          className={`box sm:my-6 my-4 border border-dashed border-[#9F9C9C] h-[200px] rounded-lg flex flex-col items-center justify-center gap-3 ${
-            !canAddMore ? "opacity-60" : ""
-          }`}
+          className={`box sm:my-6 my-4 border h-[200px] rounded-lg flex flex-col items-center justify-center gap-3 transition-[background-color,border-color] duration-200 ease-out ${
+            isDragActive
+              ? "border-solid border-[#292d32] bg-[#F9F8F8]"
+              : "border-dashed border-[#9F9C9C] bg-transparent"
+          } ${!canAddMore ? "opacity-60" : ""}`}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          onDragEnter={onDragEnter}
+          onDragLeave={onDragLeave}
           role="button"
           tabIndex={0}
           aria-disabled={!canAddMore}
-          whileHover={canAddMore ? { scale: 1.01 } : undefined}
+          whileHover={canAddMore && !isDragActive ? { scale: 1.01 } : undefined}
           whileTap={canAddMore ? { scale: 0.99 } : undefined}
           transition={{ duration: 0.18 }}
         >
-          <BsFileEarmarkPdfFill size={26} color="#616161" />
-          <div className="flex flex-col items-center justify-center">
+          <motion.div
+            animate={{ y: isDragActive ? -4 : 0 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <BsFileEarmarkPdfFill
+              size={26}
+              color={isDragActive ? "#292d32" : "#616161"}
+            />
+          </motion.div>
+          <div className="flex flex-col items-center justify-center pointer-events-none">
             <p className="sm:text-[15px] text-[14px] text-center font-medium">
-              Choose a PDF file or drag & drop it here
+              {isDragActive
+                ? "Drop to add"
+                : "Choose a PDF file or drag & drop it here"}
             </p>
             <p
               className="sm:text-[11px] text-[10px] text-center"
@@ -250,11 +251,12 @@ const ContentSources = () => {
             {uploads.map(({ id, file }) => (
               <motion.div
                 key={id}
-                variants={itemAnim}
+                variants={fileItem}
                 initial="hidden"
                 animate="show"
                 exit="exit"
                 layout
+                style={{ overflow: "hidden" }}
                 className="flex items-center justify-between bg-white sm:py-2 py-1.5"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
@@ -295,7 +297,7 @@ const ContentSources = () => {
 
         {/* Paste text */}
         <motion.div variants={fadeUp}>
-          <h1 className="sm:text-[15px] text-[14px] font-medium">
+          <h1 className="sm:text-[15px] text-[14px] font-medium tracking-[-1px]">
             Paste text (Optional)
           </h1>
 
@@ -307,7 +309,10 @@ const ContentSources = () => {
               placeholder="Notes, emails, copied sections, anything relevant..."
             />
 
-            <p className="sm:text-[11px] text-[10px] right-4 absolute bottom-2.5">
+            <p
+              className="sm:text-[11px] text-[10px] right-4 absolute bottom-2.5"
+              style={{ fontFamily: '"Geist Mono", sans-serif' }}
+            >
               WORD COUNT: {pastedText.length}
             </p>
           </div>
@@ -321,7 +326,7 @@ const ContentSources = () => {
           <Button
             type="button"
             size="lg"
-            disabled={uploads.length === 0 || uploadSources.isPending}
+            disabled={!canSubmit || uploadSources.isPending}
             onClick={onReviewSources}
           >
             {uploadSources.isPending ? "Preparing files..." : "Review sources"}

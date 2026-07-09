@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p .claude/skills)",
+      "Bash(cmd //c \"mklink /J .claude\\\\\\\\skills\\\\\\\\frontend-design .agents\\\\\\\\skills\\\\\\\\frontend-design\")"
+    ]
+  }
+}

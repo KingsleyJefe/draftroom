@@ -7,30 +7,8 @@ import Container from "../shared/Container";
 import StarterKit from "@tiptap/starter-kit";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SourceReviewItem } from "../../_services/draft.service";
-import type { Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-
-const container: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.85,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
+import { container, fadeUp } from "@/lib/motion";
 
 type LocationState = {
   items?: SourceReviewItem[];
@@ -99,7 +77,7 @@ export default function DraftEditor() {
       {/* Banner — visible when source titles are globally hidden */}
       {hideAllTitles && (
         <div className="flex justify-end pb-2 sm:pr-2">
-          <p className="font-mono uppercase sm:text-[13px] text-[11px] tracking-[-0.4px] text-[#292d32]">
+          <p className="font-mono uppercase sm:text-[13px] text-[11px] tracking-[-1px] text-[#292d32]">
             Section titles are off.{" "}
             <button
               type="button"

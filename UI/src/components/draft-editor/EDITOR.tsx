@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Editor, EditorContent } from "@tiptap/react";
 import { TextSelection } from "prosemirror-state";
 import TitlePopover from "./TitlePopover";
@@ -25,6 +25,23 @@ const EDITOR = ({
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [popover, setPopover] = useState<PopoverState>(null);
+  const [assemblePlayed, setAssemblePlayed] = useState(false);
+
+  // Assembly beat: stamp --i on each h3 once Tiptap has painted, then let CSS animate them in.
+  useLayoutEffect(() => {
+    if (assemblePlayed) return;
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    const raf = requestAnimationFrame(() => {
+      const headings = wrapper.querySelectorAll<HTMLElement>(".ProseMirror h3");
+      if (headings.length === 0) return;
+      headings.forEach((h, i) => h.style.setProperty("--i", String(i)));
+      wrapper.dataset.assemble = "true";
+      setAssemblePlayed(true);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [assemblePlayed, items, editor]);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;

@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import Container from "../shared/Container";
 import { ResourceList } from "./ResourceList";
-import type { Variants } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import type { SourceReviewItem } from "../../_services/draft.service";
 import { Button } from "@/components/ui/button";
+import { container, fadeUp } from "@/lib/motion";
 
 type LocationState = {
   data?: {
@@ -14,28 +14,6 @@ type LocationState = {
     totalWords: number;
     totalWordsLabel: string;
   };
-};
-
-const container: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.85,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
 };
 
 export default function ReviewSources() {
@@ -117,7 +95,7 @@ export default function ReviewSources() {
             variants={fadeUp}
             className="flex items-center justify-between mb-3"
           >
-            <h1 className="sm:text-[15px] font-medium text-[14px]">
+            <h1 className="sm:text-[15px] font-medium text-[14px] tracking-[-1px]">
               Source list
             </h1>
             <Button

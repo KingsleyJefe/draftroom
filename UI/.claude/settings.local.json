@@ -4,5 +4,9 @@
       "mcp__ide__getDiagnostics",
       "mcp__figma__get_design_context"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "agentation"
+  ],
+  "enableAllProjectMcpServers": true
 }
