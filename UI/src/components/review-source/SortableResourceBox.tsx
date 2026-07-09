@@ -17,7 +17,6 @@ export default function SortableResourceBox({
     isDragging,
     isOver,
     activeIndex,
-    overIndex,
     index,
   } = useSortable({ id: it.id });
 
